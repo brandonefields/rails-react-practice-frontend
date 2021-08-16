@@ -1,19 +1,19 @@
 import React from 'react';
 import TodoItem from './TodoItem';
 
-const TodoContainer = ({todos}) => {
+export default function TodoContainer({todos, deleteTodo, updateTodo}){
 
     const showTodos = () => {
-        return todos.map(todo => <TodoItem key={todo.id} {...todo} /> )
+        return todos.map(todo => <TodoItem key={todo.id} {...todo} updateTodo={updateTodo} deleteTodo={deleteTodo}/> )
     }
 
     return (
-        <div>
+      
             <ul className="todo-list">
                 {showTodos()}
             </ul>
-        </div>
+       
     );
 }
+ 
 
-export default TodoContainer;

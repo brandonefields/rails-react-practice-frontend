@@ -1,14 +1,66 @@
+body {
+  background-color: rgb(236, 222, 204);
+}
+
+
+.App{
+  text-align: center;
+}
+
+.delete-button{
+  background-color: rgb(193, 73, 59);
+  color:rgb(252, 248, 243);
+}
+
+.edit-button{
+  background-color: rgb(125, 185, 211);
+  color:rgb(252, 248, 243);
+}
+
+.close-button{
+  background-color: rgb(193, 73, 59);
+  color:rgb(252, 248, 243);
+}
+
+.urgent-input{
+  display: flex;
+  justify-content: center;
+}
+
+.done-input{
+  display: flex;
+  justify-content: center;
+}
+
+.todo-form{
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  height: 230px;
+  margin: auto;
+  background-color: antiquewhite;
+  padding: 2%;
+  margin-bottom: 1em;
+}
+
 .todo-list{
   display: flex;
   flex-flow: row wrap;
   list-style-type: none;
   justify-content: space-between;
   width: 90%;
+  justify-content: space-between;
+  padding-inline-start: 0%;
   /* background-color: aquamarine; */
 }
 .todo-item {
+  background-color: antiquewhite;
   width: 200px;
-  height: 150px;
+  height: max-content;
   box-shadow: 0 20px 20px -10px gray;
   border-radius: 6px;
+  padding: 1em;
+  border: 5em;
+  margin: 1em;
 }
+
