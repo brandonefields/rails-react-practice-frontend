@@ -11,10 +11,10 @@ export default class TodoForm extends Component {
 
     state = initialState
 
-    componentDidMount(){
-        const {todo} = this.props
-        if(this.props.todo){
-            const {id, title, content, urgent, done} = todo
+    componentDidMount() {
+        const { todo } = this.props
+        if (this.props.todo) {
+            const { id, title, content, urgent, done } = todo
 
             this.setState({
                 id,
@@ -27,7 +27,7 @@ export default class TodoForm extends Component {
     }
 
     handleChange = (event) => {
-        let {name, value, checked} = event.target
+        let { name, value, checked } = event.target
         value = (name === "urgent") || (name === "done") ? checked : value
 
         this.setState({
@@ -37,25 +37,25 @@ export default class TodoForm extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault()
-        this.props.submitAction(this.state) 
-        if(this.props.handleToggle){
+        this.props.submitAction(this.state)
+        if (this.props.handleToggle) {
             this.props.handleToggle()
         }
     }
 
     showDoneCheckbox = () => {
         return this.props.todo
-        ? (
-            <div className="done-input">
-                <label>Done</label>
-                <input 
-                    type="checkbox" 
-                    name="done" 
-                    checked={this.state.done}
-                    onChange={this.handleChange}
-                />
-            </div>
-         ) : null
+            ? (
+                <div className="done-input">
+                    <label>Done</label>
+                    <input
+                        type="checkbox"
+                        name="done"
+                        checked={this.state.done}
+                        onChange={this.handleChange}
+                    />
+                </div>
+            ) : null
     }
 
     showClosedButton = () => {
@@ -63,37 +63,37 @@ export default class TodoForm extends Component {
             ? <button className="close-button" onClick={this.props.handleToggle}>CLOSE FORM</button>
             : null
     }
-     
 
-    render(){
 
-        const {title, content, urgent, done} = this.state
+    render() {
+
+        const { title, content, urgent } = this.state
 
         return (
-            <form 
-            className="todo-form"
-            onSubmit={this.handleSubmit}>
+            <form
+                className="todo-form"
+                onSubmit={this.handleSubmit}>
                 {this.props.todo ? <h2>Edit Todo</h2> : <h2>Create a new todo</h2>}
                 <label>Title</label>
-                <input 
-                type="text" 
-                name="title" 
-                value={title} 
-                onChange={this.handleChange}/>
-                <label>Content</label> 
-                <input 
-                type="text" 
-                name="content" 
-                value={content}
-                onChange={this.handleChange}/>
-                
+                <input
+                    type="text"
+                    name="title"
+                    value={title}
+                    onChange={this.handleChange} />
+                <label>Content</label>
+                <input
+                    type="text"
+                    name="content"
+                    value={content}
+                    onChange={this.handleChange} />
+
                 <div className="urgent-input">
                     <label>Urgent</label>
-                    <input 
-                    type="checkbox" 
-                    name="urgent" 
-                    checked={urgent}
-                    onChange={this.handleChange}/>
+                    <input
+                        type="checkbox"
+                        name="urgent"
+                        checked={urgent}
+                        onChange={this.handleChange} />
                 </div>
                 {this.showDoneCheckbox()}
                 <input type="submit" />
