@@ -5,6 +5,9 @@ import TodoContainer from './components/TodoContainer';
 import TodoForm from './components/TodoForm';
 import { patchTodo, postTodo, deleteTodo } from './helpers';
 import SignUpForm from './components/SignUpForm';
+import { Route, Switch, Redirect } from 'react-router-dom';
+import PrivateRoute from './components/PrivateRoute';
+import Home from './components/Home';
 
 const todoURL = "http://localhost:3000/todos"
 
@@ -47,36 +50,76 @@ class App extends Component {
     deleteTodo(id)
   }
 
+  login = ({ username, password }) => {
+    fetch("http://localhost:3000/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ username, password })
+    })
+      .then(res => res.json())
+      .then(res => {
+        if (res.errors) {
+          this.setState({ alerts: res.errors })
+        }
+        else {
+          localStorage.setItem('token', res.token)
+          this.setState({
+            user: res.user,
+            alerts: ["Successful Login!"]
+          })
+        }
+      })  
+  }
+
   signUp = (user) => {
-    fetch("http://localhost:3000/users", {
+    return fetch("http://localhost:3000/users", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({ user })
     })
-    .then(res => res.json())
-    .then(res => {
-      if(res.errors){
-        this.setState({alerts: res.errors})
-      }
-      else {
-        localStorage.setItem('token',res.token)
-        this.setState({
-          user: res.user,
-          alerts: ["User successfully created!"]
-        })
-      }
-    })
+      .then(res => res.json())
+      .then(res => {
+        if (res.errors) {
+          this.setState({ alerts: res.errors })
+        }
+        else {
+          localStorage.setItem('token', res.token)
+          this.setState({
+            user: res.user,
+            alerts: ["User successfully created!"]
+          })
+        }
+      })
   }
 
   render() {
     return (
       <div className="App">
         <h1>Todo App</h1>
-        <SignUpForm signUp={this.signUp} alerts={this.state.alerts}/>
-        <TodoForm submitAction={this.addTodo} />
-        <TodoContainer updateTodo={this.updateTodo} deleteTodo={this.deleteTodo} todos={this.state.todos} />
+        <Switch>
+          <PrivateRoute
+            exact
+            path="/"
+            component={Home}
+            submitAction={this.addTodo}
+            updateTodo={this.updateTodo}
+            deleteTodo={this.deleteTodo}
+            todos={this.state.todos}
+          />
+          <Route exact path="/signup" render={(routerProps) => {
+            return <SignUpForm
+              {...routerProps}
+              login={this.login}
+              signUp={this.signUp}
+              alerts={this.state.alerts} />
+            }
+          } />
+          <Redirect to="/" />
+        </Switch>
       </div>
     );
   }
